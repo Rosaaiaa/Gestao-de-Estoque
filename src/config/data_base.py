@@ -7,22 +7,6 @@ def init_db(app):
     """
     Inicializa a base de dados com o app Flask e o SQLAlchemy.
     """
-    # db_user = 'root'
-    # db_password = 'root'
-    # db_name = 'sellerdatabase'
-    # db_host = 'localhost'
-    # db_port = 3306
-
-    # conn = pymysql.connect(host=db_host, user=db_user, password=db_password, port=db_port)
-    # cursor = conn.cursor()
-    # cursor.execute(
-    #     f"CREATE DATABASE IF NOT EXISTS {db_name} "
-    #     "CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
-    # )
-    # conn.commit()
-    # cursor.close()
-    # conn.close()
-
     database_url = os.getenv("DATABASE_URL")
 
     if not database_url:
