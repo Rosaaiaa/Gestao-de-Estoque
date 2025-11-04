@@ -8,6 +8,7 @@ class User(db.Model):
     celular = db.Column(db.String(30), nullable=False)
     password = db.Column(db.String(100), nullable=False)
     status = db.Column(db.String(10), nullable=False)
+    codigo = db.Column(db.String(5), nullable=True)
 
     def to_dict(self):
         return {
@@ -17,5 +18,6 @@ class User(db.Model):
             "email": self.email,
             "celular": self.celular,
             "password": self.password,
-            "status": self.status
+            "status": self.status,
+            "codigo": self.codigo
         }
