@@ -11,8 +11,8 @@ def gera_codigo():
 
     message = client.messages.create(
         from_='whatsapp:+14155238886',
-        content_sid='HXb5b62575e6e4ff6129ad7c8efe1f983e',
-        content_variables='{"1":"12/1","2":"3pm"}',
+        content_sid='HX229f5a04fd0510ce1b071852155d3e75',
+        content_variables='{"1":"'+ str(numero_aleatorio) +'"}',
         to='whatsapp:+5511985528776'
     )
 
