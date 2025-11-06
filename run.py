@@ -11,7 +11,7 @@ def create_app():
     """
     app = Flask(__name__)
 
-    CORS(app, origins=['https://react-gestao-de-estoque.vercel.app/'])
+    CORS(app, origins=['https://react-gestao-de-estoque.vercel.app'])
 
     init_db(app)
     init_routes(app)

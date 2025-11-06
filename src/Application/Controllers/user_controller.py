@@ -1,6 +1,6 @@
 from flask import request, jsonify, make_response
 from src.Application.Service.user_service import UserService
-from flask_jwt_extended import JWTManager, jwt_required, get_jwt_identity, create_access_token
+from flask_jwt_extended import create_access_token
 from ...Infrastructure.http.whats_app import gera_codigo
 
 class UserController:

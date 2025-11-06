@@ -1,4 +1,5 @@
 from src.Application.Controllers.user_controller import UserController
+from src.Application.Controllers.product_controller import ProductController
 from flask import jsonify, make_response
 from flask_jwt_extended import jwt_required
 
@@ -8,6 +9,8 @@ def init_routes(app):
         return make_response(jsonify({
             "mensagem": "API - OK; Docker - Up",
         }), 200)
+    
+    # Rotas referentes à users/sellers
     
     @app.route('/user', methods=['POST'])
     def register_user():
@@ -40,3 +43,31 @@ def init_routes(app):
     @app.route('/login', methods=['POST'])
     def login():
         return UserController.login()
+    
+    # Rotas referentes à products
+
+    @app.route('/products', methods=['POST'])
+    @jwt_required()
+    def register_product():
+        return ProductController.register_product()
+    
+    @app.route('/products', methods=['GET'])
+    @jwt_required()
+    def get_products():
+        return ProductController.list_products()
+    
+    @app.route('/products/<int:id>', methods=['GET'])
+    @jwt_required()
+    def get_product_id(id):
+        return ProductController.get_product(id)
+    
+    @app.route('/products/<int:id>', methods=['PUT'])
+    @jwt_required()
+    def update_product(id):
+        return ProductController.update_product(id)
+    
+    @app.route('/products/<int:id>', methods=['DELETE'])
+    @jwt_required()
+    def inactivate_product(id):
+        return ProductController.delete_product(id)
+    
