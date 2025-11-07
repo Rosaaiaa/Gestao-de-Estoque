@@ -69,5 +69,5 @@ def init_routes(app):
     @app.route('/products/<int:id>', methods=['DELETE'])
     @jwt_required()
     def inactivate_product(id):
-        return ProductController.delete_product(id)
+        return ProductController.inactivate_product(id)
     
