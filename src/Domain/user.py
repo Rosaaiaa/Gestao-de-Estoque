@@ -7,14 +7,3 @@ class UserDomain:
         self.password = password
         self.status = False
         self.codigo = codigo
-    
-    def to_dict(self):
-        return {
-            "name": self.name,
-            "cnpj": self.cnpj,
-            "email": self.email,
-            "celular": self.celular,
-            "password": self.password,
-            "status": self.status,
-            "codigo": self.codigo
-        }

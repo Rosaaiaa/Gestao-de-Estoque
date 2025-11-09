@@ -1,5 +1,6 @@
 from src.Application.Controllers.user_controller import UserController
 from src.Application.Controllers.product_controller import ProductController
+from src.Application.Controllers.sale_controller import SaleController
 from flask import jsonify, make_response
 from flask_jwt_extended import jwt_required
 
@@ -70,4 +71,16 @@ def init_routes(app):
     @jwt_required()
     def inactivate_product(id):
         return ProductController.inactivate_product(id)
+    
+    # Rotas referentes à sales
+
+    @app.route("/sales", methods=["POST"])
+    @jwt_required()
+    def sell_product():
+        return SaleController.create_sale()
+
+    @app.route("/sales", methods=["GET"])
+    @jwt_required()
+    def get_sales():
+        return SaleController.list_sales()
     
