@@ -93,5 +93,5 @@ class UserController:
                 "mensagem": "Usuário não ativado."
             }))
 
-        access_token = create_access_token(identity=user_status['id'])
+        access_token = create_access_token(identity=user_status['user_id'])
         return jsonify(access_token=access_token)
