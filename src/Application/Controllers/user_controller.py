@@ -88,10 +88,10 @@ class UserController:
             return make_response(jsonify({
                 "mensagem": "Credenciais inválidas. Por favor valide o cnpj e senha digitados."
             }))
-        elif user_status == '0':
+        elif user_status['status'] == '0':
             return make_response(jsonify({
                 "mensagem": "Usuário não ativado."
             }))
 
-        access_token = create_access_token(identity=cnpj)
+        access_token = create_access_token(identity=user_status['id'])
         return jsonify(access_token=access_token)

@@ -51,6 +51,10 @@ class ProductService:
         db.session.commit()
         return product.to_dict()
     
+    # @staticmethod
+    # def sell_product(id, quantity, seller_id):
+
+    
     @staticmethod
     def inactivate_product(id, seller_id):
         product = Product.query.get(id)

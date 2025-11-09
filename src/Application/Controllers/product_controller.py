@@ -1,24 +1,29 @@
 from flask import request, jsonify, make_response
 from src.Application.Service.product_service import ProductService
 from flask_jwt_extended import get_jwt_identity
+from src.Infrastructure.http.upload_image import upload_product_image
 
 class ProductController:
     @staticmethod
     def register_product():
-        data = request.get_json()
-        name = data.get('name')
-        price = data.get('price')
-        quantity = data.get('quantity')
-        image = data.get('image')
+        # data = request.get_json()
+        name = request.form.get('name')
+        price = request.form.get('price')
+        quantity = request.form.get('quantity')
+        image_file = request.files.get('image')
+
+        image_url = None
+        if image_file:
+            image_url = upload_product_image(image_file)
 
         if not name or price is None or quantity is None:
             return make_response(jsonify({"erro": "Missing required fields"}), 400)
 
         product_data = {
             "name": name,
-            "price": price,
-            "quantity": quantity,
-            "image": image
+            "price": float(price),
+            "quantity": int(quantity),
+            "image": image_url
         }
 
         seller_id = get_jwt_identity()

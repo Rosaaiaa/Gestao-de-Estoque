@@ -85,8 +85,11 @@ class UserService:
 
     @staticmethod
     def check_login(cnpj, password):
+        return_obj = {}
         user = User.query.filter_by(cnpj=cnpj, password=password).first()
         if user:
             user_dict = user.to_dict()
-            return user_dict['status']
+            return_obj['status'] = user_dict['status']
+            return_obj['user_id'] = user_dict['id']
+            return return_obj
         return None
