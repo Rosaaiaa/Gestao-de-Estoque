@@ -6,7 +6,6 @@ from src.Infrastructure.http.upload_image import upload_product_image
 class ProductController:
     @staticmethod
     def register_product():
-        # data = request.get_json()
         name = request.form.get('name')
         price = request.form.get('price')
         quantity = request.form.get('quantity')
@@ -14,7 +13,7 @@ class ProductController:
 
         image_url = None
         if image_file:
-            image_url = upload_product_image(image_file)
+            image_url = upload_product_image(image_file, get_jwt_identity())
 
         if not name or price is None or quantity is None:
             return make_response(jsonify({"erro": "Missing required fields"}), 400)
@@ -52,15 +51,30 @@ class ProductController:
 
     @staticmethod
     def update_product(id):
-        data = request.get_json()
-        if not data:
-            return make_response(jsonify({"erro": "Missing update data"}), 400)
-        
+        name = request.form.get('name')
+        price = request.form.get('price')
+        quantity = request.form.get('quantity')
+        image_file = request.files.get('image')
+
         seller_id = get_jwt_identity()
-        updated_product = ProductService.update_product(id, data, seller_id)
-        if not updated_product:
+
+        existing_product = ProductService.get_product(id, seller_id)
+        if not existing_product:
             return make_response(jsonify({"erro": "Produto não encontrado"}), 404)
-        
+
+        image_url = existing_product['image']
+        if image_file:
+            image_url = upload_product_image(image_file, seller_id)
+
+        product_data = {
+            "name": name if name else existing_product['name'],
+            "price": float(price) if price else existing_product['price'],
+            "quantity": int(quantity) if quantity else existing_product['quantity'],
+            "image": image_url
+        }
+
+        updated_product = ProductService.update_product(id, product_data, seller_id, image_url)
+
         return make_response(jsonify({
             "mensagem": "Produto atualizado com sucesso",
             "produto": updated_product
@@ -75,5 +89,5 @@ class ProductController:
                 "mensagem": "Não existe Produto com esse ID"
             }), 404)
         return make_response(jsonify({
-            "mensagem": "Produto deletado com sucesso"
+            "mensagem": "Produto inativado com sucesso"
         }), 200)

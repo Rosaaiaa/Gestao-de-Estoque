@@ -5,7 +5,7 @@ class Product(db.Model):
     name = db.Column(db.String(100), nullable=False)
     price = db.Column(db.Float, nullable=False)
     quantity = db.Column(db.Integer, nullable=False)
-    image = db.Column(db.String(200), nullable=False)
+    image = db.Column(db.String(200))
     status = db.Column(db.Boolean, nullable=False)
 
     seller_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)

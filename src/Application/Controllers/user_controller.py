@@ -52,7 +52,7 @@ class UserController:
     @staticmethod
     def get_user(id):
         user = UserService.get_user(id)
-        return user
+        return user.to_dict()
 
     @staticmethod
     def update_user(id):
@@ -63,7 +63,7 @@ class UserController:
         updated_user = UserService.update_user(id, data)
         return make_response(jsonify({
             "mensagem": "User atualizado com sucesso",
-            "usuarios": updated_user
+            "usuarios": updated_user.to_dict()
         }), 200)
 
     @staticmethod
@@ -93,5 +93,5 @@ class UserController:
                 "mensagem": "Usuário não ativado."
             }))
 
-        access_token = create_access_token(identity=user_status['user_id'])
+        access_token = create_access_token(identity=str(user_status['user_id']))
         return jsonify(access_token=access_token)

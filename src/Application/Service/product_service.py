@@ -18,7 +18,7 @@ class ProductService:
             quantity=new_product.quantity,
             image=new_product.image,
             status=new_product.status,
-            seller_id=seller_id
+            seller_id=int(seller_id)
         )
         db.session.add(product)
         db.session.commit()
@@ -27,7 +27,7 @@ class ProductService:
     
     @staticmethod
     def list_products(seller_id):
-        products = Product.query.filter_by(seller_id=seller_id, status=True).all()
+        products = Product.query.filter_by(seller_id=int(seller_id), status=True).all()
         product_list = []
         for product in products:
             product_list.append(product.to_dict())
@@ -36,29 +36,30 @@ class ProductService:
     @staticmethod
     def get_product(id, seller_id):
         product = Product.query.get(id)
-        if not product or product.seller_id != seller_id:
+        if not product or product.seller_id != int(seller_id):
             return None
         return product.to_dict()
 
     @staticmethod
-    def update_product(id, data, seller_id):
+    def update_product(id, data, seller_id, image_url=None):
         product = Product.query.get(id)
-        if not product or product.seller_id != seller_id:
+        if not product or product.seller_id != int(seller_id):
             return None
+        
         for chave, valor in data.items():
-            # optionally: validate keys before set
-            setattr(product, chave, valor)
+            if chave in ["name", "price", "quantity", "status"]:
+                setattr(product, chave, valor)
+
+        if image_url:
+            product.image = image_url
+
         db.session.commit()
         return product.to_dict()
-    
-    # @staticmethod
-    # def sell_product(id, quantity, seller_id):
-
     
     @staticmethod
     def inactivate_product(id, seller_id):
         product = Product.query.get(id)
-        if not product or product.seller_id != seller_id:
+        if not product or product.seller_id != int(seller_id):
             return None
         product.status = False
         db.session.commit()

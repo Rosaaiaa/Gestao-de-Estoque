@@ -1,3 +1,6 @@
+from dotenv import load_dotenv
+load_dotenv()
+
 from flask import Flask
 from flask_cors import CORS
 from src.config.data_base import init_db, db
@@ -16,13 +19,12 @@ def create_app():
     init_db(app)
     init_routes(app)
 
-    app.config["JWT_SECRET_KEY"] = "e999c435-6b35-4c11-89f3-efe62dd15f08"
+    app.config["JWT_SECRET_KEY"] = os.getenv("JWT_SECRET_KEY")
 
     return app
 
 app = create_app()
 jwt = JWTManager(app)
-
 
 with app.app_context():
     db.create_all()
