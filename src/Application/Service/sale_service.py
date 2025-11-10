@@ -46,6 +46,8 @@ class SaleService:
         sale_list = []
 
         for sale in sales:
-            sale_list.append(sale.to_dict())
+            sale_dict = sale.to_dict()
+            sale_dict['product_name'] = sale.product.name
+            sale_list.append(sale_dict)
         
         return sale_list
