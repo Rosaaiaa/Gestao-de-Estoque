@@ -9,6 +9,7 @@ class Sale(db.Model):
     quantity = db.Column(db.Integer, nullable=False)
     price_at_sale = db.Column(db.Float, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.now)
+    Status = db.Column(db.Boolean, nullable=False)
 
     product = db.relationship("Product", backref="sales")
 
@@ -18,5 +19,6 @@ class Sale(db.Model):
             "product_id": self.product_id,
             "quantity": self.quantity,
             "price_at_sale": self.price_at_sale,
-            "created_at": self.created_at.isoformat()
+            "created_at": self.created_at.isoformat(),
+            "status": self.Status
         }

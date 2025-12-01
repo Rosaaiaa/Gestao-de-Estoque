@@ -85,6 +85,11 @@ def init_routes(app):
     def get_sales():
         return SaleController.list_sales()
     
+    @app.route("/sales/<int:id>", methods=["DELETE"])
+    @jwt_required()
+    def inactivate_sale(id):
+        return SaleController.inactivate_sale(id)
+    
     # Rotas referentes à reports
 
     @app.route("/reports/sales-by-product", methods=["GET"])

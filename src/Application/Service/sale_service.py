@@ -30,7 +30,8 @@ class SaleService:
         sale = Sale(
             product_id=new_sale.product_id,
             quantity=new_sale.quantity,
-            price_at_sale=new_sale.price_at_sale
+            price_at_sale=new_sale.price_at_sale,
+            status = new_sale.status
         )
 
         product.quantity -= new_sale.quantity
@@ -42,7 +43,7 @@ class SaleService:
 
     @staticmethod
     def list_sales(seller_id):
-        sales = Sale.query.join(Product).filter(Product.seller_id == int(seller_id)).order_by(Sale.created_at.desc()).all()
+        sales = Sale.query.join(Product).filter(Product.seller_id == int(seller_id), Sale.Status == True).order_by(Sale.created_at.desc()).all()
         sale_list = []
 
         for sale in sales:
@@ -51,3 +52,14 @@ class SaleService:
             sale_list.append(sale_dict)
         
         return sale_list
+
+    @staticmethod
+    def inactivate_sale(id):
+        sale = Sale.query.get(id)
+        product = Product.query.get(sale.product_id)
+        if not sale:
+            return None
+        product.quantity += sale.quantity
+        sale.Status = False
+        db.session.commit()
+        return sale.to_dict()

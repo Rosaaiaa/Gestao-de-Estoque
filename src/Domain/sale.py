@@ -3,3 +3,4 @@ class SaleDomain:
         self.product_id = product_id
         self.quantity = quantity
         self.price_at_sale = price_at_sale
+        self.status = True

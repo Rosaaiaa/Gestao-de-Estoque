@@ -27,3 +27,15 @@ class SaleController:
         seller_id = get_jwt_identity()
         sales = SaleService.list_sales(seller_id)
         return make_response(jsonify({"vendas": sales}), 200)
+
+    @staticmethod
+    def inactivate_sale(id):
+        # seller_id = get_jwt_identity()
+        sale = SaleService.inactivate_sale(id)
+        if sale == None:
+            return make_response(jsonify({
+                "mensagem": "Não existe Venda com esse ID"
+            }), 404)
+        return make_response(jsonify({
+            "mensagem": "Venda inativada com sucesso"
+        }), 200)
