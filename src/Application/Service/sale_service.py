@@ -31,7 +31,7 @@ class SaleService:
             product_id=new_sale.product_id,
             quantity=new_sale.quantity,
             price_at_sale=new_sale.price_at_sale,
-            status = new_sale.status
+            Status = new_sale.status
         )
 
         product.quantity -= new_sale.quantity
